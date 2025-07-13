@@ -56,12 +56,17 @@ Temporary Items
 .Trash-*
 
 # Ignore all modules except the default modules.
+# Ignore all modules inside /modules
 /modules/**
+# But allow the default module folder and its contents
 !/modules/default
 !/modules/default/**
-!/modules/README.md**
+!/modules/README.md
+# Allow MMM-OnSpotify module
+!/modules/MMM-OnSpotify/
 
 # Ignore changes to the custom css files but keep the sample and main.
+# Ignore all files in /css except for the specific ones listed
 /css/*
 !/css/custom.css.sample
 !/css/main.css
@@ -69,15 +74,13 @@ Temporary Items
 !/css/font-awesome.css
 
 # Ignore users config file but keep the sample.
+# Ignore all files in /config except the sample config
 /config/*
 !/config/config.js.sample
 
-# Vim
-## swap
+# Vim swap and patch files
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
-
-## diff patch
 *.orig
 *.rej
 *.bak
