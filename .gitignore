@@ -55,15 +55,18 @@ Temporary Items
 .directory
 .Trash-*
 
-# Ignore all modules except the default modules.
-# Ignore all modules inside /modules
+# Ignore all modules, but explicitly allow specific ones
 /modules/**
-# But allow the default module folder and its contents
+# Allow the default module folder and its contents
 !/modules/default
 !/modules/default/**
 !/modules/README.md
+
 # Allow MMM-OnSpotify module
 !/modules/MMM-OnSpotify/
+
+# If you have more modules to allow, add them similarly:
+# !/modules/YourOtherModule/
 
 # Ignore changes to the custom css files but keep the sample and main.
 # Ignore all files in /css except for the specific ones listed
