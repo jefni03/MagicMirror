@@ -1,0 +1,3 @@
+[submodule "modules/MMM-OnSpotify"]
+	path = modules/MMM-OnSpotify
+	url = https://github.com/Fabrizz/MMM-OnSpotify.git
