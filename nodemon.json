@@ -1,0 +1,6 @@
+{
+  "watch": ["config", "modules", "generateConfig.js"],
+  "ignore": ["config/config.js"],  
+  "ext": "js,json",
+  "exec": "node server"
+}
