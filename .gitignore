@@ -55,15 +55,8 @@ Temporary Items
 .directory
 .Trash-*
 
-# Ignore all modules, but explicitly allow specific ones
-/modules/**
-# Allow the default module folder and its contents
-!/modules/default
-!/modules/default/**
-!/modules/README.md
 
-# Allow MMM-OnSpotify module
-!/modules/MMM-OnSpotify/
+
 
 # If you have more modules to allow, add them similarly:
 # !/modules/YourOtherModule/
