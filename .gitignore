@@ -69,10 +69,7 @@ Temporary Items
 !/css/roboto.css
 !/css/font-awesome.css
 
-# Ignore users config file but keep the sample.
-# Ignore all files in /config except the sample config
-/config/*
-!/config/config.js.sample
+
 
 # Vim swap and patch files
 [._]*.s[a-w][a-z]
