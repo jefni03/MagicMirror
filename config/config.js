@@ -11,7 +11,7 @@
 let config = {
 	address : '0.0.0.0',
     port: 8080,
-    ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.0.42", "::ffff:192.168.0.50", "192.168.1.11"],
+    ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.0.42", "::ffff:192.168.0.50", "192.168.1.11", "192.168.1.24"],
 	// address: "localhost", // Address to listen on, can be:
 	// - "localhost", "127.0.0.1", "::1" to listen on loopback interface
 	// - another specific IPv4/6 to listen on a specific interface

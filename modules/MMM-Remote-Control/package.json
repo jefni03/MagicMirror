@@ -32,6 +32,7 @@
     "test:spelling": "cspell ."
   },
   "dependencies": {
+    "pm2": "^6.0.8",
     "showdown": "^2.1.0",
     "simple-git": "^3.28.0",
     "swagger-ui": "^5.26.2",
