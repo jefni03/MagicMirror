@@ -14,7 +14,7 @@ let config = {
 	// - another specific IPv4/6 to listen on a specific interface
 	// - "0.0.0.0", "::" to listen on any interface
 	// Default, when address config is left out or empty, is "localhost"
-	port: 8080,
+	port: 8081,
 	basePath: "/", // The URL path where MagicMirror² is hosted. If you are using a Reverse proxy
 	// you must set the sub path here. basePath must end with a /
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"], // Set [] to allow all IP addresses
@@ -38,6 +38,17 @@ let config = {
 	units: "imperial",
 
 	modules: [
+		// other modules
+		{
+			module: "MMM-GPT-Voice",
+			position: "bottom_bar",
+			config: {
+				model: "gpt-3.5-turbo",
+				maxTokens: 500,
+				temperature: 0.8
+			}
+		},
+
 		{
 			module: "alert"
 		},
@@ -120,6 +131,7 @@ let config = {
 			// 	/* Add here your configurations */
 			// }
 			//malcolm
+			// position: "middle_center" /* bottom_left, bottom_center */,
 			config: {
 				clientID: "28c3157233ba495a8743cc510c5782ec",
 				clientSecret: "4dd7c2d548d0442a88da74204887a55f",
