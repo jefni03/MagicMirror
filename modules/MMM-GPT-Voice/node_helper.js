@@ -4,12 +4,10 @@ const axios = require("axios");
 const FormData = require("form-data");
 const { exec } = require("child_process");
 const path = require("path");
-require("dotenv").config(); 
+require("dotenv").config();
 
 const textToSpeech = require("@google-cloud/text-to-speech");
-const player = require("play-sound")({
-  player: process.env.VLC_PATH || "vlc" 
-});
+const player = require("play-sound")({ player: "mpg123" });
 
 const gcpClient = new textToSpeech.TextToSpeechClient({
   keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
@@ -138,9 +136,7 @@ module.exports = NodeHelper.create({
       const filePath = "gpt-response.mp3";
       fs.writeFileSync(filePath, response.audioContent, "binary");
       console.log("[GPT-Voice] Playing response with Google TTS...");
-      player.play(filePath, {
-        vlc: ["--intf", "dummy", "--play-and-exit", "--qt-start-minimized"]
-      }, (err) => {
+      player.play(filePath, (err) => {
         if (err) console.error("[GPT-Voice] Playback error:", err.message);
       });
     } catch (err) {
