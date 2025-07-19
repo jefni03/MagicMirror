@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+.gpt-script-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+
+.gpt-orb {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #001d33 40%, #003f5c 100%);
+  box-shadow:
+    0 0 30px rgba(0, 255, 255, 0.5),
+    0 0 80px rgba(0, 255, 255, 0.25);
+  position: relative;
+  animation: orbPulse 1.5s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gpt-orb-text {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.9em;
+  color: #00f6ff;
+  text-align: center;
+  padding: 10px;
+  line-height: 1.4em;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes orbPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.95;
+    box-shadow:
+      0 0 30px rgba(0, 255, 255, 0.5),
+      0 0 80px rgba(0, 255, 255, 0.25);
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+    box-shadow:
+      0 0 40px rgba(0, 255, 255, 0.6),
+      0 0 100px rgba(0, 255, 255, 0.35);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.gpt-orb-dots {
+  display: flex;
+  gap: 6px;
+  font-size: 2em;
+  color: #00f6ff;
+}
+
+.gpt-orb-dots span {
+  animation: blink 1.2s infinite;
+}
+
+.gpt-orb-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.gpt-orb-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}

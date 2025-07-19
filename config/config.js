@@ -41,8 +41,12 @@ let config = {
 	modules: [
 		// other modules
 		{
+	
+		},
+
+		{
 			module: "MMM-GPT-Voice",
-			position: "bottom_bar",
+			position: "middle_center",
 			config: {
 				model: "gpt-3.5-turbo",
 				maxTokens: 500,
@@ -130,10 +134,6 @@ let config = {
 				refreshToken: "AQAPgLSk1ctl1zpCW5R7WIk9EKwvRIBG9xKJinrA_CiscqArJ7c8xQUcJHLt4D472613OVGGO8tREORE-ZwIxaB2oybOzs3POG7B38_49wEn4pjHg_G0h5btDSgh_lhsAn0"
 				/* Add here your configurations */
 			}
-		},
-		{
-			module: "MMM-JarvisUI",
-			position: "middle_center", // or "fullscreen_above"
 		}
 	]
 };
