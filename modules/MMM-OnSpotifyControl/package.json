@@ -1,0 +1,8 @@
+{
+  "name": "mmm-onspotifycontrol",
+  "version": "1.0.0",
+  "main": "node_helper.js",
+  "dependencies": {
+    "spotify-web-api-node": "^5.0.2"
+  }
+}
