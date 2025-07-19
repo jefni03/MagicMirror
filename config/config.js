@@ -8,6 +8,7 @@
  * which will be converted to `config.js` while starting. For more information
  * see https://docs.magicmirror.builders/configuration/introduction.html#enviromnent-variables
  */
+
 let config = {
 	address: "localhost", // Address to listen on, can be:
 	// - "localhost", "127.0.0.1", "::1" to listen on loopback interface
@@ -129,6 +130,10 @@ let config = {
 				refreshToken: "AQAPgLSk1ctl1zpCW5R7WIk9EKwvRIBG9xKJinrA_CiscqArJ7c8xQUcJHLt4D472613OVGGO8tREORE-ZwIxaB2oybOzs3POG7B38_49wEn4pjHg_G0h5btDSgh_lhsAn0"
 				/* Add here your configurations */
 			}
+		},
+		{
+			module: "MMM-JarvisUI",
+			position: "middle_center", // or "fullscreen_above"
 		}
 	]
 };
