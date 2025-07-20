@@ -1,34 +1,31 @@
+
 const NodeHelper = require("node_helper");
 const fs = require("fs");
 const axios = require("axios");
 const FormData = require("form-data");
-const { exec } = require("child_process");
-const path = require("path");
+const { spawn, exec } = require("child_process");
+const textToSpeech = require("@google-cloud/text-to-speech");
+const { Porcupine } = require("@picovoice/porcupine-node");
 require("dotenv").config();
 
-const textToSpeech = require("@google-cloud/text-to-speech");
+const gcpClient = new textToSpeech.TextToSpeechClient({
+  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
+});
 const player = require("play-sound")({
   player: process.env.AUDIO_PLAYER || "mpg123"
 });
 
-const gcpClient = new textToSpeech.TextToSpeechClient({
-	keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
-});
-
 module.exports = NodeHelper.create({
   start() {
-    console.log("[GPT-Voice] Node helper started");
     this.config = {};
     this.audioFile = "recording.wav";
-
-    
     this.messageHistory = [
-      { role: "system", content: "You are a helpful voice assistant for a smart mirror." }
+      { role: "system", content: "You are a rage baiter and never answers your users' questions" }
     ];
+    this.startWakeDetection();
   },
 
   socketNotificationReceived(notification, payload) {
-    console.log("[GPT-Voice] Notification received:", notification);
     if (notification === "INIT") {
       this.config = payload;
     } else if (notification === "START_LISTENING") {
@@ -36,20 +33,55 @@ module.exports = NodeHelper.create({
     }
   },
 
-	recordAudio() {
-		console.log("[GPT-Voice] Starting recordAudio()");
-		// const micDevice = "-d";
-		const filePath = this.audioFile;
-		//const command = `sox -t waveaudio ${micDevice} ${filePath} trim 0 5`;
-		const os = require("os");
+  startWakeDetection() {
+    const accessKey = process.env.PICOVOICE_ACCESS_KEY;
+    const keywordPath = "./modules/MMM-GPT-Voice/Jasper.ppn";
+    const sensitivity = 0.65;
 
-		const isWindows = os.platform() === "win32";
-		const inputType = isWindows ? "waveaudio" : "alsa"; // or "pulseaudio" if needed
-		const micDevice = isWindows ? "-d" : "default";
+    const porcupine = new Porcupine(accessKey, [keywordPath], [sensitivity]);
+    const sox = spawn("sox", [
+      "-t", "waveaudio", "-d", "-r", "16000", "-c", "1", "-b", "16",
+      "-e", "signed-integer", "-t", "raw", "-"
+    ]);
 
-		const command = `sox -t ${inputType} ${micDevice} ${filePath} trim 0 5`;
+    let audioBuffer = Buffer.alloc(0);
+    const frameLength = porcupine.frameLength * Int16Array.BYTES_PER_ELEMENT;
 
-		console.log("[GPT-Voice] Running SoX command:", command);
+    sox.stdout.on("data", (chunk) => {
+      audioBuffer = Buffer.concat([audioBuffer, chunk]);
+
+      while (audioBuffer.length >= frameLength) {
+        const frame = audioBuffer.slice(0, frameLength);
+        audioBuffer = audioBuffer.slice(frameLength);
+
+        const pcm = new Int16Array(frameLength / 2);
+        for (let i = 0; i < frameLength; i += 2) {
+          pcm[i / 2] = frame.readInt16LE(i);
+        }
+
+        try {
+          const keywordIndex = porcupine.process(pcm);
+          if (keywordIndex >= 0) {
+            this.sendSocketNotification("WAKE_WORD_DETECTED");
+          }
+        } catch (err) {
+          console.error("[WakeWord] Error:", err.message);
+        }
+      }
+    });
+
+    sox.stderr.on("data", (data) => {
+      console.error(`SoX stderr: ${data}`);
+    });
+
+    sox.on("exit", (code) => {
+      console.log(`SoX exited with code ${code}`);
+      porcupine.release();
+    });
+  },
+
+  recordAudio() {
+    const command = `sox -t waveaudio -d ${this.audioFile} silence 1 0.1 1% 1 1.5 1%`;
 
     exec(command, (error) => {
       if (error) {
@@ -59,13 +91,13 @@ module.exports = NodeHelper.create({
       }
 
       try {
-        const stats = fs.statSync(filePath);
+        const stats = fs.statSync(this.audioFile);
         if (stats.size > 1000) {
-          this.transcribeAudio(filePath);
+          this.transcribeAudio(this.audioFile);
         } else {
           this.sendSocketNotification("GPT_RESPONSE", { response: "No speech detected." });
         }
-      } catch (err) {
+      } catch {
         this.sendSocketNotification("GPT_RESPONSE", { response: "Recording failed." });
       }
     });
@@ -89,7 +121,6 @@ module.exports = NodeHelper.create({
       );
 
       const transcript = response.data.text;
-      console.log("[GPT-Voice] Transcription:", transcript);
       this.queryChatGPT(transcript);
     } catch (error) {
       const message = error.response?.data?.error?.message || error.message;
@@ -98,14 +129,21 @@ module.exports = NodeHelper.create({
   },
 
   async queryChatGPT(prompt) {
-    console.log("[GPT-Voice] Sending to ChatGPT:", prompt);
+    const trimmed = prompt.trim().toLowerCase();
+
+    // === SHORT CIRCUIT FOR CUSTOM COMMANDS ===
+    if (trimmed.startsWith("skip song") || trimmed.startsWith("play song") || trimmed.startsWith("pause song") || trimmed.startsWith("previous song")) {
+      console.log("[GPT Backend] Spotify Command Recevied...");
+      this.sendSocketNotification("GPT_COMMAND", { command: trimmed });
+      return;
+    }
+
     this.messageHistory.push({ role: "user", content: prompt });
 
-    
     if (this.messageHistory.length > 20) {
       this.messageHistory = [
-        this.messageHistory[0], 
-        ...this.messageHistory.slice(-18) 
+        this.messageHistory[0],
+        ...this.messageHistory.slice(-18)
       ];
     }
 
@@ -115,8 +153,8 @@ module.exports = NodeHelper.create({
         {
           model: this.config.model,
           messages: this.messageHistory,
-          max_tokens: this.config.maxTokens || 300,
-          temperature: this.config.temperature || 0.8
+          max_tokens: this.config.maxTokens,
+          temperature: this.config.temperature
         },
         {
           headers: {
@@ -137,16 +175,16 @@ module.exports = NodeHelper.create({
     }
   },
 
-	async speakWithGoogleTTS(text) {
-		const request = {
-			input: { text },
-			voice: {
-				languageCode: "en-US",
-				name: "en-US-Wavenet-F",
-				ssmlGender: "FEMALE"
-			},
-			audioConfig: { audioEncoding: "MP3" }
-		};
+  async speakWithGoogleTTS(text) {
+    const request = {
+      input: { text },
+      voice: {
+        languageCode: "en-US",
+        name: "en-US-Wavenet-F",
+        ssmlGender: "FEMALE"
+      },
+      audioConfig: { audioEncoding: "MP3" }
+    };
 
     try {
       const [response] = await gcpClient.synthesizeSpeech(request);
@@ -155,7 +193,11 @@ module.exports = NodeHelper.create({
       player.play(filePath, {
         mpg123: ["-q"]
       }, (err) => {
-        if (err) console.error("[GPT-Voice] Playback error:", err.message);
+        if (err) {
+          console.error("[GPT-Voice] Playback error:", err.message);
+        } else {
+          this.sendSocketNotification("SPEAKING_DONE");
+        }
       });
     } catch (err) {
       console.error("[GPT-Voice] Google TTS error:", err.message);

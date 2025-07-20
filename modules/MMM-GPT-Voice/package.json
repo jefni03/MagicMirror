@@ -12,13 +12,15 @@
   "type": "commonjs",
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.2.0",
-    "@picovoice/porcupine-node": "^2.2.1",
+    "@picovoice/porcupine-node": "^3.0.6",
     "axios": "^1.10.0",
     "dotenv": "^17.2.0",
     "env": "^0.0.2",
     "form-data": "^4.0.4",
     "fs": "^0.0.1-security",
+    "mic": "^2.1.2",
     "node-record-lpcm16": "^1.0.1",
-    "play-sound": "^1.1.6"
+    "play-sound": "^1.1.6",
+    "wav": "^1.0.2"
   }
 }

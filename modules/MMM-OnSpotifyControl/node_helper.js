@@ -54,7 +54,6 @@ module.exports = NodeHelper.create({
     }
 
     if (notification === "SPOTIFY_PLAY") {
-      console.log("SPOTIFY_SKIP NOTI RECEIVED");
       this.spotifyApi.play()
         .then(() => {
           this.sendSocketNotification("SPOTIFY_RESPONSE", "Playback started");
@@ -65,11 +64,32 @@ module.exports = NodeHelper.create({
     }
 
     if (notification === "SPOTIFY_SKIP") {
-      console.log("SPOTIFY_SKIP NOTI RECEIVED");
       this.spotifyApi.skipToNext()
         .then(() => {
           this.sendSocketNotification("SPOTIFY_RESPONSE", "Skipped to next track");
           console.log("[MMM-OnSpotifyControl] Skipped to next track");
+        })
+        .catch(err => {
+          this.sendSocketNotification("SPOTIFY_RESPONSE", "Error skipping: " + err.message);
+        });
+    }
+  
+    if (notification === "SPOTIFY_PAUSE") {
+      this.spotifyApi.pause()
+        .then(() => {
+          this.sendSocketNotification("SPOTIFY_RESPONSE", "Playback Paused");
+          console.log("[MMM-OnSpotifyControl] Paused track");
+        })
+        .catch(err => {
+          this.sendSocketNotification("SPOTIFY_RESPONSE", "Error pausing: " + err.message);
+        });
+    }
+        
+    if (notification === "SPOTIFY_PREVIOUS") {
+      this.spotifyApi.skipToPrevious()
+        .then(() => {
+          this.sendSocketNotification("SPOTIFY_RESPONSE", "Skipped to previous track");
+          console.log("[MMM-OnSpotifyControl] Skipped to previous track");
         })
         .catch(err => {
           this.sendSocketNotification("SPOTIFY_RESPONSE", "Error skipping: " + err.message);
