@@ -34,7 +34,7 @@ module.exports = NodeHelper.create({
 
   startWakeDetection() {
     const accessKey = process.env.PICOVOICE_ACCESS_KEY;
-    const keywordPath = "./modules/MMM-GPT-Voice/jarvis_windows.ppn";
+    const keywordPath = "./modules/MMM-GPT-Voice/Jeffrey_creampi.ppn";
     const sensitivity = 0.65;
 
     const porcupine = new Porcupine(accessKey, [keywordPath], [sensitivity]);
