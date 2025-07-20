@@ -40,7 +40,9 @@ let config = {
 
 	modules: [
 		// other modules
-		{},
+		{
+	
+		},
 
 		{
 			module: "MMM-GPT-Voice",
@@ -136,12 +138,11 @@ let config = {
 			//malcolm
 			// position: "middle_center" /* bottom_left, bottom_center */,
 			config: {
-				clientID: "4c956895af654f3cb191664803402f81",
-				clientSecret: "2c1e9f30edaf4f609b4a154f8fb3d69c",
+				clientID: "003f253dfa1a4274be03cb7b07495676",
+				clientSecret: "e2d2f3fb35e34f2080d885fb1943be07",
 				accessToken:
-					"BQBf6tDlSNMuFvQGdSxH41OVwGbgLStTvzk_vzaxFFq8QSOoZRq6Sa78igNGDQ6pK1vNKj95uw9h_ZBwn4UxSEDLEXrOxBJIKaBgV13tSPYfvQNi0v6jufCi8LzTh6U33anrvHeC0dIuE9CbQOnOkmMl1YXp2TZlXFh5sZiu4j9OoeHUdh6Grg7ebwWUwoOO5cQ9RVVktSJrsf0qbMlQSusBYLqvUv0_a4BAz8Ws_P0nSqmWuMjTLMC5_Xp7D8Wj6BSXqGjQfiEk71GP",
-				refreshToken: "AQCz9gSZkPAqrekZGcfoeGQZLV_aIBMg9VoQxexsm_rU1zp7KhAFdzAzgPlHUjsQFGd_lzjXGuNUx-AMy5Qq5c7zYFf4Pdqk96b5-hX-OfeI3H0bRbwDYH26YhOVKZTndeE",
-				redirectUri: "http://127.0.0.1:8100/callback",
+					"BQAap_G5_0YK2O96hDe-ITG_ZDfaBLPHLP8OFmsZSjFq0-Ps9Qv1Gl8pg1Ko1vqgLg37TtXe0Izc4_YsqtAyNfQLQETYeMgdtLSCyS1SL5oGA82R4_awNwX9lf3E8Nb2NOnHuquYcSKRI3mvqVTsN97qzHmZ61e_CSuGGJEobTSfeYxjR0y-Rozm4ksvELBRITskFs_dxd0d4Zsme98JLqVHrN6Lgn9VkH7VFg60fWRlN05j2CDFaxW4Rw86iZc6y3tkyepKRg",
+				refreshToken: "AQAPgLSk1ctl1zpCW5R7WIk9EKwvRIBG9xKJinrA_CiscqArJ7c8xQUcJHLt4D472613OVGGO8tREORE-ZwIxaB2oybOzs3POG7B38_49wEn4pjHg_G0h5btDSgh_lhsAn0",
 				/* Add here your configurations */
 				// Animations look "better" with a Pi5
 				mediaAnimations: true,
@@ -152,22 +153,21 @@ let config = {
 				spotifyVectorAnimations: true,
 				//that lil barcode thing not necessary
 				spotifyCodeExperimentalShow: false,
-				blurCorrectionInFrameSide: true,
-				blurCorrectionInAllSides: true
+				blurCorrectionInFrameSide : true,
+				blurCorrectionInAllSides : true
 			}
 		},
 		{
 			module: "MMM-OnSpotifyControl",
-			position: "top_right", // position doesn't matter, no UI
+			position: "top_right",  // position doesn't matter, no UI
 			config: {
-				clientID: "4c956895af654f3cb191664803402f81",
-				clientSecret: "2c1e9f30edaf4f609b4a154f8fb3d69c",
-				accessToken:
-					"BQBf6tDlSNMuFvQGdSxH41OVwGbgLStTvzk_vzaxFFq8QSOoZRq6Sa78igNGDQ6pK1vNKj95uw9h_ZBwn4UxSEDLEXrOxBJIKaBgV13tSPYfvQNi0v6jufCi8LzTh6U33anrvHeC0dIuE9CbQOnOkmMl1YXp2TZlXFh5sZiu4j9OoeHUdh6Grg7ebwWUwoOO5cQ9RVVktSJrsf0qbMlQSusBYLqvUv0_a4BAz8Ws_P0nSqmWuMjTLMC5_Xp7D8Wj6BSXqGjQfiEk71GP",
-				refreshToken: "AQCz9gSZkPAqrekZGcfoeGQZLV_aIBMg9VoQxexsm_rU1zp7KhAFdzAzgPlHUjsQFGd_lzjXGuNUx-AMy5Qq5c7zYFf4Pdqk96b5-hX-OfeI3H0bRbwDYH26YhOVKZTndeE",
-				redirectUri: "http://127.0.0.1:8100/callback" // or your redirect URI
+				clientId: "003f253dfa1a4274be03cb7b07495676",
+				clientSecret: "e2d2f3fb35e34f2080d885fb1943be07",
+				redirectUri: "http://127.0.0.1:8100/callback", // or your redirect URI
+				refreshToken: "AQAPgLSk1ctl1zpCW5R7WIk9EKwvRIBG9xKJinrA_CiscqArJ7c8xQUcJHLt4D472613OVGGO8tREORE-ZwIxaB2oybOzs3POG7B38_49wEn4pjHg_G0h5btDSgh_lhsAn0"
 			}
 		}
+
 	]
 };
 
