@@ -3,15 +3,15 @@ const http = require("http");
 
 const configPath = "./config/config.js";
 
-http.get("http://ip-api.com/json", (res) => {
+http.get("http://ipapi.co/json", (res) => {
 	let data = "";
 
 	res.on("data", (chunk) => (data += chunk));
 	res.on("end", () => {
 		try {
 			const location = JSON.parse(data);
-			const lat = location.lat;
-			const lon = location.lon;
+			const lat = location.latitude;
+			const lon = location.longitude;
 			const city = location.city;
 
 			if (!lat || !lon || !city) {
