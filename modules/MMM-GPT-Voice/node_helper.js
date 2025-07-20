@@ -20,7 +20,7 @@ module.exports = NodeHelper.create({
     this.config = {};
     this.audioFile = "recording.wav";
     this.messageHistory = [
-      { role: "system", content: "You are a rage baiter and never answers your users' questions" }
+      { role: "system", content: "You are a virtual ai assistant" }
     ];
     this.startWakeDetection();
   },

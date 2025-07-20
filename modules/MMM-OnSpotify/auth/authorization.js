@@ -52,8 +52,16 @@ function redirectToError(response, error) {
 
 function redirectToAuthorization(response, state) {
   // your application requests authorization
-  const scope =
-    "user-read-playback-state user-read-currently-playing user-top-read user-read-private";
+  const scope = [
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+  "user-top-read",
+  "user-read-private",
+  "streaming",
+  "app-remote-control"
+].join(" ");
+
   let url = "https://accounts.spotify.com/authorize?";
   let urlParams = {
     response_type: "code",
