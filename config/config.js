@@ -8,6 +8,7 @@
  * which will be converted to `config.js` while starting. For more information
  * see https://docs.magicmirror.builders/configuration/introduction.html#enviromnent-variables
  */
+
 let config = {
 	address: "localhost", // Address to listen on, can be:
 	// - "localhost", "127.0.0.1", "::1" to listen on loopback interface
@@ -40,8 +41,12 @@ let config = {
 	modules: [
 		// other modules
 		{
+	
+		},
+
+		{
 			module: "MMM-GPT-Voice",
-			position: "bottom_bar",
+			position: "middle_center",
 			config: {
 				model: "gpt-3.5-turbo",
 				maxTokens: 500,
