@@ -1,3 +1,4 @@
+
 const NodeHelper = require("node_helper");
 const fs = require("fs");
 const axios = require("axios");
@@ -19,7 +20,7 @@ module.exports = NodeHelper.create({
     this.config = {};
     this.audioFile = "recording.wav";
     this.messageHistory = [
-      { role: "system", content: "You are a helpful voice assistant for a smart mirror." }
+      { role: "system", content: "You are a rage baiter and never answers your users' questions" }
     ];
     this.startWakeDetection();
   },
@@ -128,6 +129,15 @@ module.exports = NodeHelper.create({
   },
 
   async queryChatGPT(prompt) {
+    const trimmed = prompt.trim().toLowerCase();
+
+    // === SHORT CIRCUIT FOR CUSTOM COMMANDS ===
+    if (trimmed.startsWith("skip song") || trimmed.startsWith("play song") || trimmed.startsWith("pause song") || trimmed.startsWith("previous song")) {
+      console.log("[GPT Backend] Spotify Command Recevied...");
+      this.sendSocketNotification("GPT_COMMAND", { command: trimmed });
+      return;
+    }
+
     this.messageHistory.push({ role: "user", content: prompt });
 
     if (this.messageHistory.length > 20) {

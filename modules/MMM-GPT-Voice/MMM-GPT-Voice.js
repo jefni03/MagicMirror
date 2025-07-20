@@ -68,6 +68,28 @@ Module.register("MMM-GPT-Voice", {
   },
 
   socketNotificationReceived(notification, payload) {
+    if (notification === "GPT_COMMAND") {
+      const trimmed = payload.command.toLowerCase().trim();
+
+      if (trimmed.startsWith("skip song")) {
+        console.log("[MMM-GPT-Voice] Sending skip command");
+        this.sendNotification("SPOTIFY_SKIP_COMMAND");
+        this.sendSocketNotification("GPT_RESPONSE", { response: "Skipping song." });
+      } else if (trimmed.startsWith("play song")) {
+        console.log("[MMM-GPT-Voice] Sending play command");
+        this.sendNotification("SPOTIFY_PLAY_COMMAND");
+        this.sendSocketNotification("GPT_RESPONSE", { response: "Playing song." });
+      } else if (trimmed.startsWith("pause song")) {
+        console.log("[MMM-GPT-Voice] Sending pause command");
+        this.sendNotification("SPOTIFY_PAUSE_COMMAND");
+        this.sendSocketNotification("GPT_RESPONSE", { response: "Pausing song." });
+      } else if (trimmed.startsWith("previous song")) {
+        console.log("[MMM-GPT-Voice] Sending previous command");
+        this.sendNotification("SPOTIFY_PREVIOUS_COMMAND");
+        this.sendSocketNotification("GPT_RESPONSE", { response: "Previous song." });
+      }
+    }
+
     if (notification === "GPT_RESPONSE") {
       this.responseText = payload.response;
       this.state = "speaking";

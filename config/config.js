@@ -90,8 +90,8 @@ let config = {
 			config: {
 				weatherProvider: "openmeteo",
 				type: "current",
-				lat: 33.9816,
-				lon: -117.9092
+				lat: 33.93,
+				lon: -117.9477
 			}
 		},
 		{
@@ -101,8 +101,8 @@ let config = {
 			config: {
 				weatherProvider: "openmeteo",
 				type: "forecast",
-				lat: 33.9816,
-				lon: -117.9092
+				lat: 33.93,
+				lon: -117.9477
 			}
 		},
 
@@ -125,16 +125,49 @@ let config = {
 		{
 			/* Don't share your credentials! */
 			module: "MMM-OnSpotify",
+			position: "middle_center" /* bottom_left, bottom_center */,
+			// //jeff
+			// config: {
+			// 	clientID: "003f253dfa1a4274be03cb7b07495676",
+			// 	clientSecret: "e2d2f3fb35e34f2080d885fb1943be07",
+			// 	accessToken:
+			// 		"BQAap_G5_0YK2O96hDe-ITG_ZDfaBLPHLP8OFmsZSjFq0-Ps9Qv1Gl8pg1Ko1vqgLg37TtXe0Izc4_YsqtAyNfQLQETYeMgdtLSCyS1SL5oGA82R4_awNwX9lf3E8Nb2NOnHuquYcSKRI3mvqVTsN97qzHmZ61e_CSuGGJEobTSfeYxjR0y-Rozm4ksvELBRITskFs_dxd0d4Zsme98JLqVHrN6Lgn9VkH7VFg60fWRlN05j2CDFaxW4Rw86iZc6y3tkyepKRg",
+			// 	refreshToken: "AQAPgLSk1ctl1zpCW5R7WIk9EKwvRIBG9xKJinrA_CiscqArJ7c8xQUcJHLt4D472613OVGGO8tREORE-ZwIxaB2oybOzs3POG7B38_49wEn4pjHg_G0h5btDSgh_lhsAn0"
+			// 	/* Add here your configurations */
+			// }
+			//malcolm
 			// position: "middle_center" /* bottom_left, bottom_center */,
 			config: {
-				clientID: "003f253dfa1a4274be03cb7b07495676",
-				clientSecret: "e2d2f3fb35e34f2080d885fb1943be07",
+				clientID: "28c3157233ba495a8743cc510c5782ec",
+				clientSecret: "4dd7c2d548d0442a88da74204887a55f",
 				accessToken:
-					"BQAap_G5_0YK2O96hDe-ITG_ZDfaBLPHLP8OFmsZSjFq0-Ps9Qv1Gl8pg1Ko1vqgLg37TtXe0Izc4_YsqtAyNfQLQETYeMgdtLSCyS1SL5oGA82R4_awNwX9lf3E8Nb2NOnHuquYcSKRI3mvqVTsN97qzHmZ61e_CSuGGJEobTSfeYxjR0y-Rozm4ksvELBRITskFs_dxd0d4Zsme98JLqVHrN6Lgn9VkH7VFg60fWRlN05j2CDFaxW4Rw86iZc6y3tkyepKRg",
-				refreshToken: "AQAPgLSk1ctl1zpCW5R7WIk9EKwvRIBG9xKJinrA_CiscqArJ7c8xQUcJHLt4D472613OVGGO8tREORE-ZwIxaB2oybOzs3POG7B38_49wEn4pjHg_G0h5btDSgh_lhsAn0"
+					"BQDisnAnz9zzHOqLSfS6-iHY5fUCQcOzomfLC44PznL1o9_mOE5vp2TDkBjuNvOSz89wsHWgQtvjpiwCAVfyY5KBT9qRSA8eLcygLzbbMyP3HNBlRWO4sTkXPOdo2qxhhPivv359mbNpOG0wJt5qNPd5LXgG9MxJgZW4A23jvGGQ100rmi_I2jFzQpOdUvpj94_A75PsXS-ws2DXdDnzqHf5slrYqh7lIsYeT",
+				refreshToken: "AQDkDhrkUigt8h-ZENRfuFA-TQQyM7DkpcnuJvoakxVpen2aP-IUJMzNtcAC2-a6NBeLQbDKNuJXS0IOHHeb-cBId6P3ZEUplRhbBBMOxKCXhq_zJCUVGsRrFtGzItT9Aqs",
 				/* Add here your configurations */
+				// Animations look "better" with a Pi5
+				mediaAnimations: true,
+				fadeAnimations: true,
+				scrollAnimations: true,
+				textAnimations: true,
+				transitionAnimations: true,
+				spotifyVectorAnimations: true,
+				//that lil barcode thing not necessary
+				spotifyCodeExperimentalShow: false,
+				blurCorrectionInFrameSide : true,
+				blurCorrectionInAllSides : true
+			}
+		},
+		{
+			module: "MMM-OnSpotifyControl",
+			position: "top_right",  // position doesn't matter, no UI
+			config: {
+				clientId: "28c3157233ba495a8743cc510c5782ec",
+				clientSecret: "4dd7c2d548d0442a88da74204887a55f",
+				redirectUri: "http://127.0.0.1:8100/callback", // or your redirect URI
+				refreshToken: "AQDkDhrkUigt8h-ZENRfuFA-TQQyM7DkpcnuJvoakxVpen2aP-IUJMzNtcAC2-a6NBeLQbDKNuJXS0IOHHeb-cBId6P3ZEUplRhbBBMOxKCXhq_zJCUVGsRrFtGzItT9Aqs"
 			}
 		}
+
 	]
 };
 

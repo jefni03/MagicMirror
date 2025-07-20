@@ -4,11 +4,12 @@ Module.register("compliments", {
 	// Module config defaults.
 	defaults: {
 		compliments: {
-			anytime: ["Hey there!"],
-			morning: ["Good morning, handsome!", "Enjoy your day!", "How was your sleep?"],
-			afternoon: ["Hello, beauty!", "You look great!", "Looking good today!"],
-			evening: ["Wow, you look awesome!", "You look nice!", "Hi, how are you!"],
-			"....-01-01": ["Happy new year!"]
+			anytime: ["Fuck u hanjoo", "Jeffrey is always watching"],
+			morning: ["Get your ass up", "TF u still laying in bed for"],
+			afternoon: ["stop gooning", "ugly as always"],
+			evening: ["Yeesh what is that in the mirror", "sixx sevenn"],
+			"....-01-01": ["Happy new year!"],
+			"....-03-30": ["Remember to wish Jasper Happy Birthday!"],
 		},
 		updateInterval: 30000,
 		remoteFile: null,
