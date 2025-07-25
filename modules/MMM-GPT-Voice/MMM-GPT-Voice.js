@@ -71,6 +71,11 @@ Module.register("MMM-GPT-Voice", {
     if (notification === "GPT_COMMAND") {
       const trimmed = payload.command.toLowerCase().trim();
 
+      this.state = "idle";
+      this.responseText = "";
+      this.updateDom();
+      this.showAllOtherModules();
+
       if (trimmed.startsWith("skip song")) {
         console.log("[MMM-GPT-Voice] Sending skip command");
         this.sendNotification("SPOTIFY_SKIP_COMMAND");

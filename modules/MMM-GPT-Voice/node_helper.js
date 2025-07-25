@@ -8,6 +8,8 @@ const textToSpeech = require("@google-cloud/text-to-speech");
 const { Porcupine } = require("@picovoice/porcupine-node");
 require("dotenv").config();
 
+const audioType = process.platform === "win32" ? "waveaudio" : "alsa";
+
 const gcpClient = new textToSpeech.TextToSpeechClient({
   keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
 });
@@ -35,14 +37,25 @@ module.exports = NodeHelper.create({
 
   startWakeDetection() {
     const accessKey = process.env.PICOVOICE_ACCESS_KEY;
-    const keywordPath = "./modules/MMM-GPT-Voice/Jeffrey_creampi.ppn";
+    //const keywordPath = "./modules/MMM-GPT-Voice/Jasper.ppn"; //Malcolm's Window PC
+    //const keywordPath = "./modules/MMM-GPT-Voice/Jeffrey_creampi.ppn"; //Raspberry Pi 5
+    //const keywordPath = "./modules/MMM-GPT-Voice/jarvis_windows.ppn"; //Jeff's Laptop
+    const keywordPath = "./modules/MMM-GPT-Voice/Grimace.ppn"; //Malcolm's Linux Laptop
     const sensitivity = 0.65;
 
     const porcupine = new Porcupine(accessKey, [keywordPath], [sensitivity]);
+    // const sox = spawn("sox", [
+    //   "-t", audioType, "-d", "-r", "16000", "-c", "1", "-b", "16",
+    //   "-e", "signed-integer", "-t", "raw", "-"
+    // ]);
     const sox = spawn("sox", [
-      "-t", "waveaudio", "-d", "-r", "16000", "-c", "1", "-b", "16",
-      "-e", "signed-integer", "-t", "raw", "-"
+      //"--no-show-progress",
+      "-t", audioType, "-d",
+      "-r", "16000", "-c", "1", "-b", "16",
+      "-e", "signed-integer",
+      "-t", "raw", "-"
     ]);
+
 
     let audioBuffer = Buffer.alloc(0);
     const frameLength = porcupine.frameLength * Int16Array.BYTES_PER_ELEMENT;
@@ -81,7 +94,7 @@ module.exports = NodeHelper.create({
   },
 
   recordAudio() {
-    const command = `sox -t waveaudio -d ${this.audioFile} silence 1 0.1 1% 1 1.5 1%`;
+    const command = `sox -t ${audioType} -d ${this.audioFile} silence 1 0.1 1% 1 1.5 1%`;
 
     exec(command, (error) => {
       if (error) {
@@ -129,6 +142,7 @@ module.exports = NodeHelper.create({
   },
 
   async queryChatGPT(prompt) {
+    console.log(`USER INPUT: ${prompt}`);
     const trimmed = prompt.trim().toLowerCase();
 
     // === SHORT CIRCUIT FOR CUSTOM COMMANDS ===
