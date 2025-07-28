@@ -39,7 +39,7 @@ module.exports = NodeHelper.create({
 
     const porcupine = new Porcupine(accessKey, [keywordPath], [sensitivity]);
     const sox = spawn("sox", [
-      "-t", "alsa", "-d", "-r", "16000", "-c", "1", "-b", "16",
+      "-t", "alsa", "default", "-r", "16000", "-c", "1", "-b", "16",
       "-e", "signed-integer", "-t", "raw", "-"
     ]);
 
@@ -80,7 +80,7 @@ module.exports = NodeHelper.create({
   },
 
   recordAudio() {
-    const command = `sox -t alsa -d ${this.audioFile} silence 1 0.1 1% 1 1.5 1%`;
+    const command = `sox -t alsa default ${this.audioFile} silence 1 0.1 1% 1 1.5 1%`;
 
     exec(command, (error) => {
       if (error) {
@@ -130,6 +130,7 @@ module.exports = NodeHelper.create({
   async queryChatGPT(prompt) {
     const trimmed = prompt.trim().toLowerCase();
 
+    // === SHORT CIRCUIT FOR CUSTOM COMMANDS ===
     if (trimmed.startsWith("skip song") || trimmed.startsWith("play song") || trimmed.startsWith("pause song") || trimmed.startsWith("previous song")) {
       console.log("[GPT Backend] Spotify Command Received...");
       this.sendSocketNotification("GPT_COMMAND", { command: trimmed });
