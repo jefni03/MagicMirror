@@ -20,7 +20,7 @@ module.exports = NodeHelper.create({
     this.config = {};
     this.audioFile = "recording.wav";
     this.messageHistory = [
-      { role: "system", content: "You are a rage baiter and never answers your users' questions" }
+      { role: "system", content: "you are a smart mirror ai assistant" }
     ];
     this.startWakeDetection();
   },
@@ -35,7 +35,7 @@ module.exports = NodeHelper.create({
 
   startWakeDetection() {
     const accessKey = process.env.PICOVOICE_ACCESS_KEY;
-    const keywordPath = "./modules/MMM-GPT-Voice/Jeffrey_creampi.ppn";
+    const keywordPath = "./modules/MMM-GPT-Voice/jarvis_pc.ppn";
     const sensitivity = 0.65;
 
     const porcupine = new Porcupine(accessKey, [keywordPath], [sensitivity]);
