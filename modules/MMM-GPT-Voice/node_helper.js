@@ -80,27 +80,36 @@ module.exports = NodeHelper.create({
   },
 
   recordAudio() {
-    const command = `sox -t alsa default ${this.audioFile} silence 1 0.1 1% 1 1.5 1%`;
+  const command = `sox -V3 -t alsa default ${this.audioFile} silence 1 0.1 5% 1 1.5 5%`;
+  console.log("[GPT-Voice] Recording command:", command);
 
-    exec(command, (error) => {
-      if (error) {
-        console.error("[GPT-Voice] SoX error:", error.message);
-        this.sendSocketNotification("GPT_RESPONSE", { response: "Recording failed." });
-        return;
-      }
+  const child = exec(command, (error) => {
+    if (error) {
+      console.error("[GPT-Voice] SoX error:", error.message);
+      this.sendSocketNotification("GPT_RESPONSE", { response: "Recording failed." });
+      return;
+    }
 
-      try {
-        const stats = fs.statSync(this.audioFile);
-        if (stats.size > 1000) {
-          this.transcribeAudio(this.audioFile);
-        } else {
-          this.sendSocketNotification("GPT_RESPONSE", { response: "No speech detected." });
-        }
-      } catch {
-        this.sendSocketNotification("GPT_RESPONSE", { response: "Recording failed." });
+    try {
+      const stats = fs.statSync(this.audioFile);
+      if (stats.size > 1000) {
+        console.log("[GPT-Voice] Recording complete. File size:", stats.size);
+        this.transcribeAudio(this.audioFile);
+      } else {
+        console.warn("[GPT-Voice] Recording too short or silent.");
+        this.sendSocketNotification("GPT_RESPONSE", { response: "No speech detected." });
       }
-    });
-  },
+    } catch (err) {
+      console.error("[GPT-Voice] File check failed:", err.message);
+      this.sendSocketNotification("GPT_RESPONSE", { response: "Recording failed." });
+    }
+  });
+
+  child.stderr.on("data", (data) => {
+    const message = data.toString();
+    console.log("[SoX VERBOSE]", message);
+  });
+},
 
   async transcribeAudio(filePath) {
     const form = new FormData();
